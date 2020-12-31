@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+
+<meta charset="ISO-8859-1">
+<title>Employee Directory</title>
+<!-- Reference to CSS file -->
+<!-- <link rel="stylesheet" th:href="@{/css/demo.css}" /> -->
+
+<!-- Required meta tags for bootstrap CSS-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+	crossorigin="anonymous">
+
+</head>
+
+<body>
+	<div class="container">
+		<h3>Employee Directory</h3>
+		<hr>
+		
+	<div>
+		User: <span sec:authentication="name"></span>
+		<br>
+		Role(s): <span sec:authentication="principal.authorities"></span>
+		<br><br>
+	</div>
+
+<form th:action="@{/employees/search}" class="form-inline">
+		<!-- 		Add a button -->
+		<a th:href="@{/employees/showFormForAdd}"
+			class="btn btn-primary btn-sm mb-3"> Add Employee </a>
+			
+		<input class="form-control  ml-5 mr-sm-2 mb-3" type="search" name="employeeName" placeholder="Search by name" />
+
+		<button class="btn btn-success mb-3" type="submit">Search</button>
+</form>
+
+		<table class="table table-border table-striped">
+			<thead class="thead-dark">
+				<tr>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Email Name</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="tempEmployee : ${employees}">
+					<td th:text="${tempEmployee.firstName}" />
+					<td th:text="${tempEmployee.lastName}" />
+					<td th:text="${tempEmployee.email}" />
+					<td>
+						<!-- 					Add update button -->
+						<div sec:authorize="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')">
+							<!-- Add security to the button for only show to ROLE MANAGER or ADMIN USERS-->
+							<a
+								th:href="@{/employees/showFormForUpdate(employeeId=${tempEmployee.id})}"
+								class="btn btn-info btn-sm"> Update </a>
+						</div> <!-- 					Add delete button -->
+						<div sec:authorize="hasRole('ROLE_ADMIN')">
+							<!-- Add security to the button for only show to ROLE ADMIN USERS-->
+							<a th:href="@{/employees/delete(employeeId=${tempEmployee.id})}"
+								class="btn btn-danger btn-sm"
+								onclick="if (!(confirm(Are you sure you what to delete this employee?))) return false">
+								Delete </a>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<!-- Add a logout button -->
+	<form action="#" th:action="@{/logout}" 
+			   method="POST">
+	
+		<input type="submit" value="Logout" class="btn btn-outline-primary mt-2" />
+	
+	</form>
+	</div>
+
+</body>
+</html>
