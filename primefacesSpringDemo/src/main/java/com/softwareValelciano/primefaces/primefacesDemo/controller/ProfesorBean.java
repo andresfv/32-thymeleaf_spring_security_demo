@@ -25,14 +25,11 @@ public class ProfesorBean {
         profesorEntity = new Profesor();
     	listaProfesores = new ArrayList<Profesor>();
         listaProfesoresFiltrada  = new ArrayList<Profesor>();
-        
-    	listaProfesores = profesorService.findAll();
-    	listaProfesoresFiltrada = listaProfesores;
     }
     
     public void initDetails() {
-//    	listaProfesores = profesorService.findAll();
-//    	listaProfesoresFiltrada = listaProfesores;
+    	listaProfesores = profesorService.findAll();
+    	listaProfesoresFiltrada = listaProfesores;
     }
     
 	public Profesor getProfesorEntity() {
