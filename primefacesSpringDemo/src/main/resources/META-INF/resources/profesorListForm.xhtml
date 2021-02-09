@@ -1,65 +1,56 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="index.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
 
 
+    <ui:define name="center">
+        <f:event type="preRenderView" listener="#{profesorBean.initDetails()}" />
 
+        <p:dataTable id="profestorDataTable" widgetVar="profestorDataTable"
+                     var="profesor" value="#{profesorBean.listaProfesores}" rows="10"
+                     scrollable="true" scrollHeight="300" draggableColumns="true"
+                     emptyMessage="No se encontraron registros" filterEvent="enter"
+                     filteredValue="#{cuentaBean.listaCuentasFiltradas}" editable="true">
 
+            <f:facet name="header">
+                Lista de Profesores
+            </f:facet>
 
-<h:head>
-	<title>Lista de Profesores</title>
-</h:head>
-<h:body>
+            <p:column id="nombreProfesor_column" headerText="Nombre">
 
-	<h:form id="centerForm">
+                <h:outputText id="nombreProfesor_inputText"
+                              value="#{profesor.nombre}" />
 
-		<f:event type="preRenderView" listener="#{profesorBean.initDetails()}" />
-		
-		<p:dataTable id="profestorDataTable" widgetVar="profestorDataTable"
-			var="profesor" value="#{profesorBean.listaProfesores}" rows="10"
-			scrollable="true" scrollHeight="300" draggableColumns="true"
-			emptyMessage="No se encontraron registros" filterEvent="enter"
-			filteredValue="#{cuentaBean.listaCuentasFiltradas}" editable="true">
+            </p:column>
 
-			<f:facet name="header">
-                    Lista de Profesores
-         </f:facet>
+            <p:column id="primerApellidoProfesor_column"
+                      headerText="Primer Apellido">
 
-			<p:column id="nombreProfesor_column" headerText="Nombre">
+                <h:outputText id="primerApellidoProfesor_inputText"
+                              value="#{profesor.primerApellido}" />
 
-				<h:outputText id="nombreProfesor_inputText"
-					value="#{profesor.nombre}" />
+            </p:column>
 
-			</p:column>
+            <p:column id="segundoApellidoProfesor_column"
+                      headerText="Segundo Apellido">
 
-			<p:column id="primerApellidoProfesor_column"
-				headerText="Primer Apellido">
+                <h:outputText id="segundoApellidoProfesor_inputText"
+                              value="#{profesor.segundoApellido}" />
+            </p:column>
 
-				<h:outputText id="primerApellidoProfesor_inputText"
-					value="#{profesor.primerApellido}" />
+            <p:column id="acciones_column" headerText="Acciones">
 
-			</p:column>
+                <p:commandButton id="editCommandBtn" ajax="false"
+                                 icon="ui ui-icon-pencil"
+                                 action="/profesorEditForm.xhtml?faces-redirect=true" />
 
-			<p:column id="segundoApellidoProfesor_column"
-				headerText="Segundo Apellido">
+            </p:column>
 
-				<h:outputText id="segundoApellidoProfesor_inputText"
-					value="#{profesor.segundoApellido}" />
-			</p:column>
-
-			<p:column id="acciones_column" headerText="Acciones">
-
-				<p:commandButton id="editCommandBtn" ajax="false"
-					icon="ui ui-icon-pencil"
-					action="/profesorEditForm.xhtml?faces-redirect=true" />
-
-			</p:column>
-
-		</p:dataTable>
-	</h:form>
-</h:body>
-</html>
+        </p:dataTable>
+    </ui:define>
+</ui:composition>
