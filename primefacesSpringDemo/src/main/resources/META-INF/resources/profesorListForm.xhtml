@@ -10,6 +10,20 @@
 
     <ui:define name="center">
         <f:event type="preRenderView" listener="#{profesorBean.initDetails()}" />
+        <div class="products-buttonbar">
+            <div>
+                <p:commandButton id="newProfesorCommandBtn"
+                                 widgetVar="newProfesorCommandBtn"
+                                 value="Nuevo" icon="pi pi-plus" 
+                                 actionListener="#{profesorBean.newProfessor()}"
+                                 styleClass="ui-button-success" 
+                                 style="margin-right: .5rem">
+                    <p:ajax event="dialogReturn"
+                            update="profestorDataTable"
+                            listener="#{profesorBean.onReturn()}"/>
+                </p:commandButton>
+            </div>
+        </div>
 
         <p:dataTable id="profestorDataTable" widgetVar="profestorDataTable"
                      var="profesor" value="#{profesorBean.listaProfesores}" rows="10"
@@ -47,7 +61,11 @@
 
                 <p:commandButton id="editCommandBtn" ajax="false"
                                  icon="ui ui-icon-pencil"
-                                 action="/profesorEditForm.xhtml?faces-redirect=true" />
+                                 oncomplete="PF('manageProfesorDialog').show()">
+                    <f:setPropertyActionListener
+                        value="#{profesor}" 
+                        target="#{profesorBean.profesorEntity}"/>
+                </p:commandButton>
 
             </p:column>
 

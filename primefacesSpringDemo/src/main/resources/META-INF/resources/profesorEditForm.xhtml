@@ -1,22 +1,69 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      lang="es">
 
-<ui:define name="preRender">
-<!-- 	<f:event type="preRenderView" listener="#{profesorBean.initDetails()}" /> -->
-</ui:define>
+    <h:head>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            </style>
+            <title>Nuevo Profesor</title>
+        </h:head>
 
-<h:head>
-	<title>Mantenimiento de Profesores</title>
-</h:head>
-<h:body>
+        <h:body>
+            <h:form id="dialogFrameworkForm">
+                <h:panelGrid columns="3">
+                    <p:outputLabel id='nombreOutputLabel'
+                                   value="Nombre"
+                                   for="nombreInputText"/>
 
-	<h:form id="centerForm">
-		<p:outputLabel value="EN CONSTRUCCION"/>
-	</h:form>
-</h:body>
-</html>
+                    <p:inputText id="nombreInputText"
+                                 value="#{profesorBean.profesorEntity.nombre}"
+                                 required="true"/>
+                    <p:message id="nombreMessage" 
+                               for="nombreInputText"/>
+
+
+                    <p:outputLabel id='primerApellidoOutputLabel'
+                                   value="Primer Apellido"
+                                   for="nombreInputText"/>
+
+                    <p:inputText id="primerApellidoInputText"
+                                 value="#{profesorBean.profesorEntity.primerApellido}"
+                                 required="true"/>
+
+                    <p:message id="primerApellidoMessage" 
+                               for="primerApellidoInputText"/>
+
+
+                    <p:outputLabel id='segundoApellidoOutputLabel'
+                                   value="Segundo Apellido"
+                                   for="nombreInputText"/>
+
+                    <p:inputText id="segundoApellidoInputText"
+                                 value="#{profesorBean.profesorEntity.segundoApellido}"
+                                 required="true"/>
+
+                    <p:message id="segundoApellidoMessage" 
+                               for="segundoApellidoInputText"/>
+                </h:panelGrid>
+                <p:outputPanel/>
+                <h:panelGrid columns="2">
+                    <p:commandButton value="Guardar" 
+                                     icon="pi pi-check" 
+                                     actionListener="#{profesorBean.save()}"
+                                     update="dialogFrameworkForm" 
+                                     process="@form"/>
+
+                    <p:commandButton value="Cancelar" icon="pi pi-times" 
+                                     update="dialogFrameworkForm"
+                                     class="ui-button-secondary"/>
+                </h:panelGrid>
+            </h:form>
+        </h:body>
+
+

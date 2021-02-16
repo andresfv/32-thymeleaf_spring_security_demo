@@ -21,7 +21,7 @@
             <f:facet name="first">
                 <meta content='text/html; charset=UTF-8' 
                       http-equiv="Content-Type"/>
-                <title>Account Manager</title>
+                <title>SpringBootJsfDemo</title>
             </f:facet>
         </h:head>
 
@@ -61,13 +61,13 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">    
+                    <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
                     <h:form id="centerForm">
                         <p:growl id="messages" 
                                  showDetail="true" 
                                  globalOnly="true"
                                  life="3000"/>
                         <ui:insert name="center"/>
-                        <!--<f:event type="preRenderView" listener="{cuentaBean.redirect()}"/>-->
                     </h:form>
                 </p:layoutUnit>
             </p:layout>
