@@ -11,73 +11,73 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name= "profesor")
+@Table(name = "profesor")
 public class Profesor {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_profesor")
-	int id;
-	
-	@Column(name = "nombre")
-	String nombre;
-	
-	@Column(name = "primer_apellido")
-	String primerApellido;
-	
-	@Column(name = "segundo_apellido")
-	String segundoApellido;
-	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="profesor_informacion")
-	ProfesorInformacion profesorInformacion;
 
-	public Profesor() {
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_profesor")
+    int id;
 
-	public int getId() {
-		return id;
-	}
+    @Column(name = "nombre")
+    String nombre;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    @Column(name = "primer_apellido")
+    String primerApellido;
 
-	public String getNombre() {
-		return nombre;
-	}
+    @Column(name = "segundo_apellido")
+    String segundoApellido;
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profesor_informacion")
+    ProfesorInformacion profesorInformacion;
 
-	public String getPrimerApellido() {
-		return primerApellido;
-	}
+    public Profesor() {
+    }
 
-	public void setPrimerApellido(String primerApellido) {
-		this.primerApellido = primerApellido;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getSegundoApellido() {
-		return segundoApellido;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setSegundoApellido(String segundoApellido) {
-		this.segundoApellido = segundoApellido;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public ProfesorInformacion getProfesorInformacion() {
-		return profesorInformacion;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public void setProfesorInformacion(ProfesorInformacion profesorInformacion) {
-		this.profesorInformacion = profesorInformacion;
-	}
+    public String getPrimerApellido() {
+        return primerApellido;
+    }
 
-	@Override
-	public String toString() {
-		return "Profesor [id=" + id + ", nombre=" + nombre + ", primerApellido=" + primerApellido + ", segundoApellido="
-				+ segundoApellido + ", profesorInformacion=" + profesorInformacion + "]";
-	}
+    public void setPrimerApellido(String primerApellido) {
+        this.primerApellido = primerApellido;
+    }
+
+    public String getSegundoApellido() {
+        return segundoApellido;
+    }
+
+    public void setSegundoApellido(String segundoApellido) {
+        this.segundoApellido = segundoApellido;
+    }
+
+    public ProfesorInformacion getProfesorInformacion() {
+        return profesorInformacion;
+    }
+
+    public void setProfesorInformacion(ProfesorInformacion profesorInformacion) {
+        this.profesorInformacion = profesorInformacion;
+    }
+
+    @Override
+    public String toString() {
+        return "Profesor [id=" + id + ", nombre=" + nombre + ", primerApellido=" + primerApellido + ", segundoApellido="
+                + segundoApellido + ", profesorInformacion=" + profesorInformacion + "]";
+    }
 }

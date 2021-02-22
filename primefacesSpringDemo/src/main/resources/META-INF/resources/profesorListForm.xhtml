@@ -19,7 +19,7 @@
                                  styleClass="ui-button-success" 
                                  style="margin-right: .5rem">
                     <p:ajax event="dialogReturn"
-                            update="profestorDataTable"
+                            update="profestorDataTable, centerForm:messages"
                             listener="#{profesorBean.onReturn()}"/>
                 </p:commandButton>
             </div>
@@ -33,6 +33,14 @@
 
             <f:facet name="header">
                 Lista de Profesores
+                <p:commandButton id="profesorToggler" 
+                                 type="button"
+                                 value="Ocultar Columnas" 
+                                 style="left:40%" 
+                                 icon="ui-icon-calculator" />
+
+                <p:columnToggler datasource="profestorDataTable" 
+                                 trigger="profesorToggler"/>
             </f:facet>
 
             <p:column id="nombreProfesor_column" headerText="Nombre">
@@ -57,18 +65,79 @@
                               value="#{profesor.segundoApellido}" />
             </p:column>
 
+            <p:column id="celularProfesor_column"
+                      headerText="Celular"
+                      visible="false">
+
+                <h:outputText id="celularProfesor_inputText"
+                              value="#{profesor.profesorInformacion.celular}" />
+            </p:column>
+
+            <p:column id="telefonoProfesor_column"
+                      headerText="Teléfono"
+                      visible="false">
+
+                <h:outputText id="telefono_inputText"
+                              value="#{profesor.profesorInformacion.telefono}" />
+            </p:column>
+
+            <p:column id="email_column"
+                      headerText="E-Mail"
+                      visible="false">
+
+                <h:outputText id="email_inputText"
+                              value="#{profesor.profesorInformacion.email}" />
+            </p:column>
+
             <p:column id="acciones_column" headerText="Acciones">
 
                 <p:commandButton id="editCommandBtn" ajax="false"
-                                 icon="ui ui-icon-pencil"
-                                 oncomplete="PF('manageProfesorDialog').show()">
+                                 icon="pi pi-pencil"
+                                 actionListener="#{profesorBean.openDialog()}">
+                    <p:ajax event="dialogReturn"
+                            update="profestorDataTable, centerForm:messages"
+                            listener="#{profesorBean.onReturn()}"/>
                     <f:setPropertyActionListener
                         value="#{profesor}" 
                         target="#{profesorBean.profesorEntity}"/>
                 </p:commandButton>
 
+                <p:commandButton id="deleteCommandBtn"
+                                 icon="pi pi-trash"
+                                 oncomplete="PF('confirmDeleteDlg').show()"
+                                 ajax="true">
+                    <f:setPropertyActionListener
+                        value="#{profesor}" 
+                        target="#{profesorBean.profesorEntity}"/>
+                </p:commandButton>
             </p:column>
 
         </p:dataTable>
+
+        <p:confirmDialog id="confirmDeleteDlg" 
+                         widgetVar="confirmDeleteDlg"
+                         showEffect="fade" 
+                         hideEffect="fade" 
+                         severity="alert"
+                         appendTo="@(body)">
+            <f:facet name="message">
+                <h:outputText value="¿Desea eliminar el registro?" escape="false"/>
+            </f:facet>
+
+            <p:commandButton value="Si" 
+                             styleClass="ui-confirmdialog-yes"
+                             actionListener="#{profesorBean.delete()}"
+                             update="profestorDataTable, 
+                             centerForm:messages"
+                             oncomplete="PF('confirmDeleteDlg').hide()">
+
+            </p:commandButton>
+            <p:commandButton value="No" 
+                             oncomplete="PF('confirmDeleteDlg').hide()"
+                             styleClass="ui-confirmdialog-no ui-button-flat"/>
+        </p:confirmDialog>
+
+
+
     </ui:define>
 </ui:composition>

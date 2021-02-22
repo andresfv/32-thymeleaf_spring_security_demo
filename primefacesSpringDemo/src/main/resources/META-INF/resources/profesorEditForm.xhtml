@@ -8,62 +8,115 @@
 
     <h:head>
         <style type="text/css">
-            .ui-widget {
-                font-size: 90%;
-            </style>
-            <title>Nuevo Profesor</title>
-        </h:head>
+            .ui-layout-unit .ui-layout-unit-content {
+                border: 0px none !important;
+                border-style: hidden !important;;
+                overflow: auto !important;
+            }
+            .my-label{color: white}
 
-        <h:body>
-            <h:form id="dialogFrameworkForm">
-                <h:panelGrid columns="3">
-                    <p:outputLabel id='nombreOutputLabel'
-                                   value="Nombre"
-                                   for="nombreInputText"/>
+            .center {
+                margin: auto;
+                width: 50%;
+                padding: 10px;
+            }
+        </style>
+        <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+        <title>Nuevo Profesor</title>
+    </h:head>
 
-                    <p:inputText id="nombreInputText"
-                                 value="#{profesorBean.profesorEntity.nombre}"
-                                 required="true"/>
-                    <p:message id="nombreMessage" 
-                               for="nombreInputText"/>
+    <h:body>
+        <h:form id="dialogFrameworkForm">
+            <h:panelGrid columns="3">
+                <p:outputLabel id='nombreOutputLabel'
+                               value="Nombre"
+                               for="nombreInputText"
+                               class="my-label"/>
+
+                <p:inputText id="nombreInputText"
+                             value="#{profesorBean.profesorEntity.nombre}"
+                             required="true"/>
+                <p:message id="nombreMessage" 
+                           for="nombreInputText"/>
 
 
-                    <p:outputLabel id='primerApellidoOutputLabel'
-                                   value="Primer Apellido"
-                                   for="nombreInputText"/>
+                <p:outputLabel id='primerApellidoOutputLabel'
+                               value="Primer Apellido"
+                               for="nombreInputText"
+                               class="my-label"/>
 
-                    <p:inputText id="primerApellidoInputText"
-                                 value="#{profesorBean.profesorEntity.primerApellido}"
-                                 required="true"/>
+                <p:inputText id="primerApellidoInputText"
+                             value="#{profesorBean.profesorEntity.primerApellido}"
+                             required="true"/>
 
-                    <p:message id="primerApellidoMessage" 
-                               for="primerApellidoInputText"/>
+                <p:message id="primerApellidoMessage" 
+                           for="primerApellidoInputText"/>
 
 
-                    <p:outputLabel id='segundoApellidoOutputLabel'
-                                   value="Segundo Apellido"
-                                   for="nombreInputText"/>
+                <p:outputLabel id='segundoApellidoOutputLabel'
+                               value="Segundo Apellido"
+                               for="segundoApellidoInputText"
+                               class="my-label"/>
 
-                    <p:inputText id="segundoApellidoInputText"
-                                 value="#{profesorBean.profesorEntity.segundoApellido}"
-                                 required="true"/>
+                <p:inputText id="segundoApellidoInputText"
+                             value="#{profesorBean.profesorEntity.segundoApellido}"
+                             required="true"/>
 
-                    <p:message id="segundoApellidoMessage" 
-                               for="segundoApellidoInputText"/>
-                </h:panelGrid>
-                <p:outputPanel/>
-                <h:panelGrid columns="2">
-                    <p:commandButton value="Guardar" 
-                                     icon="pi pi-check" 
-                                     actionListener="#{profesorBean.save()}"
-                                     update="dialogFrameworkForm" 
-                                     process="@form"/>
+                <p:message id="segundoApellidoMessage" 
+                           for="segundoApellidoInputText"/>
+                
+                <p:outputLabel id='celularOutputLabel'
+                               value="Celular"
+                               for="celularInputText"
+                               class="my-label"/>
 
-                    <p:commandButton value="Cancelar" icon="pi pi-times" 
-                                     update="dialogFrameworkForm"
-                                     class="ui-button-secondary"/>
-                </h:panelGrid>
-            </h:form>
-        </h:body>
+                <p:inputText id="celularInputText"
+                             value="#{profesorBean.profesorEntity.profesorInformacion.celular}"
+                             required="true"/>
 
-    </html>
+                <p:message id="celularMessage" 
+                           for="celularInputText"/>
+                
+                <p:outputLabel id='telefonoOutputLabel'
+                               value="Teléfono"
+                               for="telefonoInputText"
+                               class="my-label"/>
+
+                <p:inputText id="telefonoInputText"
+                             value="#{profesorBean.profesorEntity.profesorInformacion.telefono}"
+                             required="true"/>
+
+                <p:message id="telefonoMessage" 
+                           for="telefonoInputText"/>
+                
+                <p:outputLabel id='emailOutputLabel'
+                               value="E-Mail"
+                               for="emailInputText"
+                               class="my-label"/>
+
+                <p:inputText id="emailInputText"
+                             value="#{profesorBean.profesorEntity.profesorInformacion.email}"
+                             required="true"/>
+
+                <p:message id="emailMessage" 
+                           for="emailInputText"/>
+            </h:panelGrid>
+            <p:spacer height="20"/>
+            <h:panelGrid columns="2" class="center">
+                <p:commandButton value="Guardar" 
+                                 icon="pi pi-check" 
+                                 actionListener="#{profesorBean.save()}"
+                                 update="dialogFrameworkForm" 
+                                 process="@form"/>
+
+                <p:commandButton value="Cancelar" 
+                                 icon="pi pi-times" 
+                                 update="dialogFrameworkForm"
+                                 class="ui-button-secondary"
+                                 process="@this"
+                                 actionListener="#{profesorBean.closeDialog()}"/>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+
+</html>
