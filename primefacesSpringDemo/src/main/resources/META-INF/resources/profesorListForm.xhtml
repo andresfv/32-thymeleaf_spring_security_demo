@@ -25,22 +25,37 @@
             </div>
         </div>
 
-        <p:dataTable id="profestorDataTable" widgetVar="profestorDataTable"
-                     var="profesor" value="#{profesorBean.listaProfesores}" rows="10"
-                     scrollable="true" scrollHeight="300" draggableColumns="true"
-                     emptyMessage="No se encontraron registros" filterEvent="enter"
-                     filteredValue="#{cuentaBean.listaCuentasFiltradas}" editable="true">
+        <p:dataTable id="profestorDataTable" 
+                     widgetVar="profestorDataTable"
+                     var="profesor" 
+                     value="#{profesorBean.listaProfesores}" 
+                     rows="10"
+                     scrollable="true" 
+                     scrollHeight="300" 
+                     draggableColumns="true"
+                     emptyMessage="No se encontraron registros" 
+                     filterEvent="enter"
+                     filteredValue="#{profesorBean.listaProfesoresFiltrada}" 
+                     editable="true"
+                     paginator="true"
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">
 
             <f:facet name="header">
+                 <div class="p-d-flex p-jc-between p-ai-center">
                 Lista de Profesores
+                
+                <div>
                 <p:commandButton id="profesorToggler" 
                                  type="button"
-                                 value="Ocultar Columnas" 
-                                 style="left:40%" 
-                                 icon="ui-icon-calculator" />
-
+                                 value="Ocultar Columnas"
+                                 icon="pi pi-align-justify" />
+                
                 <p:columnToggler datasource="profestorDataTable" 
                                  trigger="profesorToggler"/>
+                </div>
+                  </div>
             </f:facet>
 
             <p:column id="nombreProfesor_column" headerText="Nombre">
