@@ -9,26 +9,26 @@
 
 
     <ui:define name="center">
-        <f:event type="preRenderView" listener="#{profesorBean.initDetails()}" />
+        <f:event type="preRenderView" listener="#{materiaBean.initDetails()}" />
         <div class="products-buttonbar">
             <div>
-                <p:commandButton id="newProfesorCommandBtn"
-                                 widgetVar="newProfesorCommandBtn"
+                <p:commandButton id="newMateriaCommandBtn"
+                                 widgetVar="newMateriaCommandBtn"
                                  value="Nuevo" icon="pi pi-plus" 
-                                 actionListener="#{profesorBean.newProfessor()}"
+                                 actionListener="#{materiaBean.newMateria()}"
                                  styleClass="ui-button-success" 
                                  style="margin-right: .5rem">
                     <p:ajax event="dialogReturn"
-                            update="profestorDataTable, centerForm:messages"
-                            listener="#{profesorBean.onReturn()}"/>
+                            update="materiaDataTable, centerForm:messages"
+                            listener="#{materiaBean.onReturn()}"/>
                 </p:commandButton>
             </div>
         </div>
 
-        <p:dataTable id="profestorDataTable" 
-                     widgetVar="profestorDataTable"
-                     var="profesor" 
-                     value="#{profesorBean.listaProfesores}" 
+        <p:dataTable id="materiaDataTable" 
+                     widgetVar="materiaDataTable"
+                     var="materia" 
+                     value="#{materiaBean.listaMaterias}" 
                      rows="10"
                      scrollable="true" 
                      scrollHeight="300" 
@@ -43,77 +43,62 @@
 
             <f:facet name="header">
                  <div class="p-d-flex p-jc-between p-ai-center">
-                Lista de Profesores
+                Lista de Materias
                 
                 <div>
-                <p:commandButton id="profesorToggler" 
+                <p:commandButton id="materiaToggler" 
                                  type="button"
                                  value="Ocultar Columnas"
                                  icon="pi pi-align-justify" />
                 
-                <p:columnToggler datasource="profestorDataTable" 
-                                 trigger="profesorToggler"/>
+                <p:columnToggler datasource="materiaDataTable" 
+                                 trigger="materiaToggler"/>
                 </div>
                   </div>
             </f:facet>
 
-            <p:column id="nombreProfesor_column" headerText="Nombre">
+            <p:column id="nombreMateria_column" 
+                      headerText="Nombre">
 
-                <h:outputText id="nombreProfesor_inputText"
-                              value="#{profesor.nombre}" />
-
-            </p:column>
-
-            <p:column id="primerApellidoProfesor_column"
-                      headerText="Primer Apellido">
-
-                <h:outputText id="primerApellidoProfesor_inputText"
-                              value="#{profesor.primerApellido}" />
+                <h:outputText id="nombreMateria_inputText"
+                              value="#{materia.nombre}" />
 
             </p:column>
 
-            <p:column id="segundoApellidoProfesor_column"
-                      headerText="Segundo Apellido">
-
-                <h:outputText id="segundoApellidoProfesor_inputText"
-                              value="#{profesor.segundoApellido}" />
-            </p:column>
-
-            <p:column id="celularProfesor_column"
-                      headerText="Celular"
+            <p:column id="descripcionMateria_column"
+                      headerText="Descripción"
                       visible="false">
 
-                <h:outputText id="celularProfesor_inputText"
-                              value="#{profesor.profesorInformacion.celular}" />
+                <h:outputText id="descripcionMateria_inputText"
+                              value="#{materia.descripcion}" />
+
             </p:column>
 
-            <p:column id="telefonoProfesor_column"
-                      headerText="Teléfono"
-                      visible="false">
+            <p:column id="creditosMateria_column"
+                      headerText="Creditos">
 
-                <h:outputText id="telefono_inputText"
-                              value="#{profesor.profesorInformacion.telefono}" />
+                <h:outputText id="creditosMateria_inputText"
+                              value="#{materia.creditos}" />
             </p:column>
 
-            <p:column id="email_column"
-                      headerText="E-Mail"
-                      visible="false">
+            <p:column id="activaMateria_column"
+                      headerText="Activa">
 
-                <h:outputText id="email_inputText"
-                              value="#{profesor.profesorInformacion.email}" />
+                <p:selectBooleanCheckbox id="activaMateria_inputText"
+                            value="#{materia.activa}" />
             </p:column>
-
+            
             <p:column id="acciones_column" headerText="Acciones">
 
                 <p:commandButton id="editCommandBtn" ajax="false"
                                  icon="pi pi-pencil"
-                                 actionListener="#{profesorBean.openDialog()}">
+                                 actionListener="#{materiaBean.openDialog()}">
                     <p:ajax event="dialogReturn"
-                            update="profestorDataTable, centerForm:messages"
-                            listener="#{profesorBean.onReturn()}"/>
+                            update="materiaDataTable, centerForm:messages"
+                            listener="#{materiaBean.onReturn()}"/>
                     <f:setPropertyActionListener
-                        value="#{profesor}" 
-                        target="#{profesorBean.profesorEntity}"/>
+                        value="#{materia}" 
+                        target="#{materiaBean.materiaEntity}"/>
                 </p:commandButton>
 
                 <p:commandButton id="deleteCommandBtn"
@@ -121,8 +106,8 @@
                                  oncomplete="PF('confirmDeleteDlg').show()"
                                  ajax="true">
                     <f:setPropertyActionListener
-                        value="#{profesor}" 
-                        target="#{profesorBean.profesorEntity}"/>
+                        value="#{materia}" 
+                        target="#{materiaBean.materiaEntity}"/>
                 </p:commandButton>
             </p:column>
 
@@ -140,8 +125,8 @@
 
             <p:commandButton value="Si" 
                              styleClass="ui-confirmdialog-yes"
-                             actionListener="#{profesorBean.delete()}"
-                             update="profestorDataTable, 
+                             actionListener="#{materiaBean.delete()}"
+                             update="materiaDataTable, 
                              centerForm:messages"
                              oncomplete="PF('confirmDeleteDlg').hide()">
 

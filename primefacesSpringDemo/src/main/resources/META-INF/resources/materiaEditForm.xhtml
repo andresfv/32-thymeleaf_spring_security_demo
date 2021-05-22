@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      lang="es">
+
+    <h:head>
+        <style type="text/css">
+            .ui-layout-unit .ui-layout-unit-content {
+                border: 0px none !important;
+                border-style: hidden !important;;
+                overflow: auto !important;
+            }
+            .my-label{color: white}
+
+            .center {
+                margin: auto;
+                width: 50%;
+                padding: 10px;
+            }
+        </style>
+        <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+        <title>Nuevo Materia</title>
+    </h:head>
+
+    <h:body>
+        <h:form id="dialogFrameworkForm">
+            <h:panelGrid columns="3">
+                <p:outputLabel id='nombreOutputLabel'
+                               value="Nombre"
+                               for="nombreInputText"
+                               class="my-label"/>
+
+                <p:inputText id="nombreInputText"
+                             value="#{materiaBean.materiaEntity.nombre}"
+                             required="true"/>
+                <p:message id="nombreMessage" 
+                           for="nombreInputText"/>
+
+
+                <p:outputLabel id='descripcionOutputLabel'
+                               value="Descripción"
+                               for="descripcionInputTextArea"
+                               class="my-label"/>
+
+                <p:outputPanel id="descripcionOutputPanel">
+                    <p:inputTextarea id="descripcionInputTextArea"
+                                     value="#{materiaBean.materiaEntity.descripcion}"
+                                     required="true"
+                                     rows="5" 
+                                     cols="30" 
+                                     counter="display" 
+                                     maxlength="255"
+                                     counterTemplate="{0} caracteres restantes." 
+                                     autoResize="false"/>
+                    <h:outputText id="display" class="p-d-block my-label"/>
+                </p:outputPanel>
+
+                <p:message id="descripcionMessage" 
+                           for="descripcionInputTextArea"/>
+
+
+                <p:outputLabel id='creditosOutputLabel'
+                               value="Créditos"
+                               for="creditosInputText"
+                               class="my-label"/>
+
+                <p:inputText id="creditosInputText"
+                             value="#{materiaBean.materiaEntity.creditos}"
+                             required="true"
+                             >
+                    <p:keyFilter mask="num" />
+                </p:inputText>
+
+                <p:message id="creditosMessage" 
+                           for="creditosInputText"/>
+
+                <p:outputPanel/>
+  
+                    <p:selectBooleanCheckbox id="activaSelectBooleanCheckbox" 
+                                             value="#{materiaBean.materiaEntity.activa}" 
+                                             itemLabel="Activa" 
+                                             class="my-label"/>
+       
+                
+                  <p:message id="activaMessage" 
+                           for="activaSelectBooleanCheckbox"/>
+            </h:panelGrid>
+            <p:spacer height="20"/>
+            <h:panelGrid columns="2" class="center">
+                <p:commandButton value="Guardar" 
+                                 icon="pi pi-check" 
+                                 actionListener="#{materiaBean.save()}"
+                                 update="dialogFrameworkForm" 
+                                 process="@form"/>
+
+                <p:commandButton value="Cancelar" 
+                                 icon="pi pi-times" 
+                                 update="dialogFrameworkForm"
+                                 class="ui-button-secondary"
+                                 process="@this"
+                                 actionListener="#{materiaBean.closeDialog()}"/>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+
+</html>

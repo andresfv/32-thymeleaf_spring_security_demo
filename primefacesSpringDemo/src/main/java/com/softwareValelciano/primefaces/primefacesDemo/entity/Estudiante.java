@@ -4,21 +4,23 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "profesor")
-public class Profesor {
+@Table(name = "estudiante")
+public class Estudiante {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_profesor")
+    @Column(name = "id_estudiante")
     int id;
 
     @Column(name = "nombre")
@@ -31,11 +33,21 @@ public class Profesor {
     String segundoApellido;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profesor_informacion")
-    ProfesorInformacion profesorInformacion;
+    @JoinColumn(name = "estudiante_informacion")
+    EstudianteInformacion estudianteInformacion;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH,
+                CascadeType.MERGE,
+                CascadeType.PERSIST,
+                CascadeType.REFRESH})
+    @JoinTable(name = "curso_estudiante",
+            joinColumns = @JoinColumn(name = "estudiante"), //el orden de los campos varia, en esta clase el joinColumn es estudiante pero en la clase curso es curso
+            inverseJoinColumns = @JoinColumn(name = "curso"))
+    private List<Curso> cursos;
 
 
-    public Profesor() {
+    public Estudiante() {
     }
 
     public int getId() {
@@ -70,18 +82,12 @@ public class Profesor {
         this.segundoApellido = segundoApellido;
     }
 
-    public ProfesorInformacion getProfesorInformacion() {
-        return profesorInformacion;
+    public List<Curso> getCursos() {
+        return cursos;
     }
 
-    public void setProfesorInformacion(ProfesorInformacion profesorInformacion) {
-        this.profesorInformacion = profesorInformacion;
+    public void setCursos(List<Curso> cursos) {
+        this.cursos = cursos;
     }
 
-
-    @Override
-    public String toString() {
-        return "Profesor [id=" + id + ", nombre=" + nombre + ", primerApellido=" + primerApellido + ", segundoApellido="
-                + segundoApellido + ", profesorInformacion=" + profesorInformacion + "]";
-    }
 }
