@@ -26,6 +26,7 @@ public class ProfesorBean {
     ProfesorInformacion profesorInformacionEntity;
     List<Profesor> listaProfesores;
     List<Profesor> listaProfesoresFiltrada;
+    FacesMessage message;
 
     @PostConstruct
     public void init() {
@@ -97,9 +98,7 @@ public class ProfesorBean {
     public void save() {
         profesorService.save(profesorEntity);
         closeDialog();
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Guardado", "Registro almacenado correctamente"));
-        context.getExternalContext().getFlash().setKeepMessages(true);
+        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado", "Registro guardado correctamente");
     }
 
     public void delete() {
@@ -110,6 +109,8 @@ public class ProfesorBean {
     }
 
     public void onReturn() {
-
+        if (message != null) {
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
     }
 }

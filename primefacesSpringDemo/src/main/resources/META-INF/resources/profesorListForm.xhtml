@@ -10,14 +10,12 @@
 
     <ui:define name="center">
         <f:event type="preRenderView" listener="#{profesorBean.initDetails()}" />
-        <div class="products-buttonbar">
+        <div>
             <div>
                 <p:commandButton id="newProfesorCommandBtn"
                                  widgetVar="newProfesorCommandBtn"
                                  value="Nuevo" icon="pi pi-plus" 
-                                 actionListener="#{profesorBean.newProfessor()}"
-                                 styleClass="ui-button-success" 
-                                 style="margin-right: .5rem">
+                                 actionListener="#{profesorBean.newProfessor()}">
                     <p:ajax event="dialogReturn"
                             update="profestorDataTable, centerForm:messages"
                             listener="#{profesorBean.onReturn()}"/>
@@ -39,16 +37,18 @@
                      paginator="true"
                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                      currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
-                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+                     rowsPerPageTemplate="5,10,{ShowAll|'All'}"
+                     reflow="true"
+                     multiViewState="true">
 
             <f:facet name="header">
                  <div class="p-d-flex p-jc-between p-ai-center">
                 Lista de Profesores
                 
-                <div>
+                <div align="right">
                 <p:commandButton id="profesorToggler" 
                                  type="button"
-                                 value="Ocultar Columnas"
+                                 title="Ocultar Columnas"
                                  icon="pi pi-align-justify" />
                 
                 <p:columnToggler datasource="profestorDataTable" 

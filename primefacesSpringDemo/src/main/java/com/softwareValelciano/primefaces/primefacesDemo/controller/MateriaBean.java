@@ -24,6 +24,7 @@ public class MateriaBean {
     Materia materiaEntity;
     List<Materia> listaMaterias;
     List<Materia> listaMateriasFiltrada;
+    FacesMessage message;
 
     @PostConstruct
     public void init() {
@@ -80,14 +81,13 @@ public class MateriaBean {
 
     public void closeDialog() {
         PrimeFaces.current().dialog().closeDynamic(null);
+        message = null;
     }
 
     public void save() {
         materiaService.save(materiaEntity);
         closeDialog();
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Guardado", "Registro almacenado correctamente"));
-        context.getExternalContext().getFlash().setKeepMessages(true);
+        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado", "Registro guardado correctamente");
     }
 
     public void delete() {
@@ -98,6 +98,8 @@ public class MateriaBean {
     }
 
     public void onReturn() {
-
+        if (message != null) {
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
     }
 }

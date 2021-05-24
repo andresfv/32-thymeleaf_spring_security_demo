@@ -10,14 +10,12 @@
 
     <ui:define name="center">
         <f:event type="preRenderView" listener="#{materiaBean.initDetails()}" />
-        <div class="products-buttonbar">
+        <div>
             <div>
                 <p:commandButton id="newMateriaCommandBtn"
                                  widgetVar="newMateriaCommandBtn"
                                  value="Nuevo" icon="pi pi-plus" 
-                                 actionListener="#{materiaBean.newMateria()}"
-                                 styleClass="ui-button-success" 
-                                 style="margin-right: .5rem">
+                                 actionListener="#{materiaBean.newMateria()}">
                     <p:ajax event="dialogReturn"
                             update="materiaDataTable, centerForm:messages"
                             listener="#{materiaBean.onReturn()}"/>
@@ -39,17 +37,21 @@
                      paginator="true"
                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                      currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
-                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+                     rowsPerPageTemplate="5,10,{ShowAll|'All'}"
+                     reflow="true"
+                     multiViewState="true"
+                     tableStyle="table-layout: auto;">
 
             <f:facet name="header">
                  <div class="p-d-flex p-jc-between p-ai-center">
                 Lista de Materias
                 
-                <div>
+                <div align="right">
                 <p:commandButton id="materiaToggler" 
                                  type="button"
-                                 value="Ocultar Columnas"
-                                 icon="pi pi-align-justify" />
+                                 title="Ocultar Columnas"
+                                 icon="pi pi-align-justify" 
+                                 />
                 
                 <p:columnToggler datasource="materiaDataTable" 
                                  trigger="materiaToggler"/>
