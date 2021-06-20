@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.LazyDataModel;
 
 @Named
 public class MateriaBean {
@@ -21,21 +22,22 @@ public class MateriaBean {
     @Autowired
     MateriaService materiaService;
 
+
     Materia materiaEntity;
     List<Materia> listaMaterias;
-    List<Materia> listaMateriasFiltrada;
     FacesMessage message;
+
+    private LazyDataModel<Materia> lazyModel;
 
     @PostConstruct
     public void init() {
         materiaEntity = new Materia();
         listaMaterias = new ArrayList<Materia>();
-        listaMateriasFiltrada = new ArrayList<Materia>();
+
     }
 
     public void initDetails() {
         listaMaterias = materiaService.findAll();
-        listaMateriasFiltrada = listaMaterias;
     }
 
     public Materia getMateriaEntity() {
@@ -52,14 +54,6 @@ public class MateriaBean {
 
     public void setListaMaterias(List<Materia> listaMaterias) {
         this.listaMaterias = listaMaterias;
-    }
-
-    public List<Materia> getListaMateriasFiltrada() {
-        return listaMateriasFiltrada;
-    }
-
-    public void setListaMateriasFiltrada(List<Materia> listaMateriasFiltrada) {
-        this.listaMateriasFiltrada = listaMateriasFiltrada;
     }
 
     public void newMateria() {
