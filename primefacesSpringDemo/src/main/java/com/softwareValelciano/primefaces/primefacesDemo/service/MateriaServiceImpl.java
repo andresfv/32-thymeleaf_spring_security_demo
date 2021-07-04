@@ -7,11 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.softwareValelciano.primefaces.primefacesDemo.entity.Materia;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Parameter;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import org.primefaces.model.FilterMeta;
@@ -51,6 +55,8 @@ public class MateriaServiceImpl implements MateriaService {
         StringBuilder groupByQuery = new StringBuilder();
         StringBuilder orderByQuery = new StringBuilder();
 
+        Map<String, Object> listaParametros = new HashMap<String, Object>();
+
         //ORDENAMIENTO POR DATATABLE
         if (sort != null && sort.size() > 0) {
             orderByQuery = new StringBuilder(ordenarDataTable(sort, orderByQuery));
@@ -58,7 +64,7 @@ public class MateriaServiceImpl implements MateriaService {
 
         //FILTRADO POR DATATABLE
         if (filterBy != null && filterBy.size() > 0) {
-            whereQuery = new StringBuilder(filtrarDataTable(filterBy, whereQuery));
+            whereQuery = new StringBuilder(filtrarDataTable(filterBy, whereQuery, listaParametros));
         }
 
         //ARMADO DEL HQL
@@ -75,17 +81,22 @@ public class MateriaServiceImpl implements MateriaService {
                 stringQuery.append(orderByQuery);
             }
 
-
             //EJECUCION DEL HQL
-        Query query = entityManager.createQuery(stringQuery.toString());
-        query.setFirstResult(pageNumber);
-        query.setMaxResults(pageSize);
+            Query query = entityManager.createQuery(stringQuery.toString());
+            query.setFirstResult(pageNumber);
+            query.setMaxResults(pageSize);
+
+            Iterator<Map.Entry<String, Object>> parametroIterador = listaParametros.entrySet().iterator();
+            while (parametroIterador.hasNext()) {
+                Map.Entry<String, Object> parametro = parametroIterador.next();
+                query.setParameter(parametro.getKey(), "%" + parametro.getValue() + "%");
+            }
+
             List<Materia> listaMaterias = query.getResultList();
 
 //        listaMaterias.forEach(materia -> {
 //            System.out.println("Nombre materia: " + materia.getNombre());
 //        });
-
             return listaMaterias;
         }
         return null;
@@ -97,10 +108,11 @@ public class MateriaServiceImpl implements MateriaService {
         StringBuilder selectQuery = new StringBuilder("select count(ma.id) from Materia ma ");
         StringBuilder whereQuery = new StringBuilder();
         StringBuilder groupByQuery = new StringBuilder();
+        Map<String, Object> listaParametros = new HashMap<String, Object>();
 
         //FILTRADO POR DATATABLE
         if (filterBy != null && filterBy.size() > 0) {
-            whereQuery = new StringBuilder(filtrarDataTable(filterBy, whereQuery));
+            whereQuery = new StringBuilder(filtrarDataTable(filterBy, whereQuery, listaParametros));
         }
 
         //ARMADO DEL HQL
@@ -114,9 +126,14 @@ public class MateriaServiceImpl implements MateriaService {
                 stringQuery.append(groupByQuery);
             }
 
-
             //EJECUCION DEL HQL
-        Query query = entityManager.createQuery(stringQuery.toString());
+            Query query = entityManager.createQuery(stringQuery.toString());
+            Iterator<Map.Entry<String, Object>> parametroIterador = listaParametros.entrySet().iterator();
+            while (parametroIterador.hasNext()) {
+                Map.Entry<String, Object> parametro = parametroIterador.next();
+                query.setParameter(parametro.getKey(), "%" + parametro.getValue() + "%");
+            }
+
             long countResult = (long) query.getSingleResult();
             return countResult;
         }
@@ -131,24 +148,25 @@ public class MateriaServiceImpl implements MateriaService {
      * @param whereQuery
      * @return hql where
      */
-    public StringBuilder filtrarDataTable(Map<String, FilterMeta> filterBy, StringBuilder whereQuery) {
+    public StringBuilder filtrarDataTable(Map<String, FilterMeta> filterBy, StringBuilder whereQuery, Map<String, Object> listaParametros) {
 //        listaMaterias.stream().filter(x -> x.getNombre().startsWith("C")).forEach(System.out::println);
 //        listaMaterias.stream().filter(x -> x.getNombre().startsWith("C")).forEach(x -> System.out.println(x.getNombre()));
 
-            for (FilterMeta filterMeta : filterBy.values()) {
-                if (filterMeta.getFilterValue() != null) {
-                    if (whereQuery.length() == 0) {
-                        whereQuery.append(" where ");
-                    } else {
-                        whereQuery.append(" and ");
-                    }
-                    if (filterMeta.getFilterMatchMode().equals(MatchMode.STARTS_WITH)) {
-                        whereQuery.append(filterMeta.getFilterField() + " like " + "'%" + filterMeta.getFilterValue().toString() + "%'");
-                    } else if (filterMeta.getFilterMatchMode().equals(MatchMode.EXACT)) {
-                        whereQuery.append(filterMeta.getFilterField() + " = " + "'" + filterMeta.getFilterValue().toString() + "'");
-                    }
+        for (FilterMeta filterMeta : filterBy.values()) {
+            if (filterMeta.getFilterValue() != null) {
+                listaParametros.put(filterMeta.getFilterField(), filterMeta.getFilterValue());
+                if (whereQuery.length() == 0) {
+                    whereQuery.append(" where ");
+                } else {
+                    whereQuery.append(" and ");
+                }
+                if (filterMeta.getFilterMatchMode().equals(MatchMode.STARTS_WITH)) {
+                    whereQuery.append(filterMeta.getFilterField() + " like " + ":" + filterMeta.getFilterField() + "");
+                } else if (filterMeta.getFilterMatchMode().equals(MatchMode.EXACT)) {
+                    whereQuery.append(filterMeta.getFilterField() + " = " + ":" + filterMeta.getFilterField());
                 }
             }
+        }
 
         return whereQuery;
     }
